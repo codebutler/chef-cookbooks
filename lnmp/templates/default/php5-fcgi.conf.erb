@@ -1,0 +1,11 @@
+description	"php5-fcgi-<%= @name %>"
+
+start on filesystem
+stop on runlevel S
+
+expect fork
+respawn
+respawn limit 10 5
+umask 022
+
+exec /usr/bin/spawn-fcgi -a 127.0.0.1 -p <%= @port %> -u <%= @user %> -f /usr/bin/php5-cgi

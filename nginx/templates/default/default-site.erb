@@ -1,0 +1,13 @@
+server {
+  listen   80 default;
+  server_name  _;
+  
+  server_name_in_redirect  off;
+
+  access_log  <%= @node[:nginx][:log_dir] %>/localhost.access.log;
+
+  location / {
+    root   /var/www/nginx-default;
+    index  index.html index.htm;
+  }
+}
