@@ -21,12 +21,14 @@ action :create do
   unless new_resource.owner.to_s == ""
     mysql_user "#{new_resource.owner}" do
       host new_resource.owner_host
+      action :create
     end
     mysql_grant "#{new_resource.name}_#{new_resource.owner}" do
       database new_resource.name
       user new_resource.owner
       user_host new_resource.owner_host
       privileges "ALL"
+      action :create
     end
   end
 end

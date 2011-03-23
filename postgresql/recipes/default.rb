@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: postgresql
-# Recipe:: client
+# Recipe:: default
 #
 # Copyright 2009, Opscode, Inc.
 #
@@ -17,15 +17,4 @@
 # limitations under the License.
 #
 
-case node.platform
-when "ubuntu","debian"
-  package "postgresql-client"
-when "fedora","suse"
-  package "postgresql-devel"
-when "redhat","centos"
-  package "postgresql#{node.postgresql.version.split('.').join}-devel"
-end
-
-gem_package 'pg' do
-  action :install
-end
+include_recipe "postgresql::client"
