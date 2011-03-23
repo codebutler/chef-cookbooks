@@ -1,0 +1,6 @@
+passenger_root /usr/lib/phusion_passenger;
+<% if node[:recipes].include?('ruby::ruby1.9.2') %>
+passenger_ruby /usr/bin/ruby1.9.1;
+<% else %>
+passenger_ruby /usr/bin/ruby1.8;
+<% end %>

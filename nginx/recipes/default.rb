@@ -1,18 +1,23 @@
-execute "apt-key adv --recv-keys --keyserver keyserver.ubuntu.com E513AA69" do
-  not_if "apt-key finger | grep '6E55 0F7A 9E68 40E9 0586  5DAB 343F 33E1 E513 AA69'"
-  notifies :run, resources(:execute => "apt-get update"), :immediately
-end
+#
+# Cookbook Name:: nginx
+# Recipe:: default
+# Author:: AJ Christensen <aj@junglist.gen.nz>
+#
+# Copyright 2008-2009, Opscode, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 
-template "/etc/apt/sources.list.d/ppa-codebutler.list" do
-  source "apt-codebutler.list.erb"
-  owner "root"
-  group "root"
-  mode "0644"
-  notifies :run, resources(:execute => "apt-get update"), :immediately
-end
-
-package "rubygems"
-package "passenger-common"
 package "nginx"
 
 directory node[:nginx][:log_dir] do
@@ -56,5 +61,4 @@ end
 service "nginx" do
   supports :status => true, :restart => true, :reload => true
   action [ :enable, :start ]
-  service_name 'nginx'
 end
