@@ -1,6 +1,12 @@
 server {
   listen 80;
   server_name <%= @domains.join(' ') %>;
+  
+  <% if @enable_ssl %>
+  listen               443 ssl;
+  ssl_certificate      /etc/ssl/certs/<%= @name %>.crt;
+  ssl_certificate_key  /etc/ssl/private/<%= @name %>.key;
+  <% end %>
 
   location / {
     root  /var/www/<%= @name %>;
@@ -16,6 +22,10 @@ server {
     if (!-e $request_filename) {
         rewrite ^(.+)$ /index.php?q=$1 last;
     }
+  }
+  
+  location ~ /\.git {
+    deny all;
   }
   
   location ~ \.php$ {
